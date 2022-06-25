@@ -49,8 +49,7 @@ function searchEvent(e) {
       }
 
       if (data.totalHits > 40) {
-        loadMore.classList.remove('is-hidden');
-        console.log(loadMore.classList);
+        loadMore.className = 'load-more';
       }
     })
     .catch(error => {
@@ -71,7 +70,7 @@ function loadMoreEvent() {
       smoothScroll();
       const totalPages = data.totalHits / 40;
       if (page > totalPages) {
-        loadMore.classList.add('is-hidden');
+        loadMore.className = 'is-hidden';
         Notify.failure(
           "We're sorry, but you've reached the end of search results."
         );
