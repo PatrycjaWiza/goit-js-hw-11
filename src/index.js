@@ -68,7 +68,7 @@ function loadMoreEvent() {
       smoothScroll();
 
       if (page > data.totalHits / 40) {
-        loadMore.classList.add('is-hidden');
+        loadMore.classList.add('.is-hidden');
         Notify.failure(
           "We're sorry, but you've reached the end of search results."
         );
