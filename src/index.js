@@ -47,7 +47,7 @@ function searchEvent(e) {
       }).refresh();
 
       if (data.totalHits > 40) {
-        loadMore.classList.remove('is-hidden');
+        loadMore.classList.remove('.is-hidden');
       }
     })
     .catch(error => {
