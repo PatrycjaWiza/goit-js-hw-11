@@ -9,10 +9,10 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 // consts
 const form = document.querySelector('#search-form');
 const loadMore = document.querySelector('.load-more');
-
 let page = 1;
 let name = '';
 let lightbox;
+
 form.addEventListener('submit', searchEvent);
 loadMore.addEventListener('click', loadMoreEvent);
 
@@ -32,6 +32,8 @@ function searchEvent(e) {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
+    loadMore.classList.add('is-hidden');
+
     return;
   }
 
@@ -41,6 +43,7 @@ function searchEvent(e) {
         Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
+        loadMore.classList.add('is-hidden');
       } else {
         renderImages(data.hits);
         lightbox = new SimpleLightbox('.gallery a', {
