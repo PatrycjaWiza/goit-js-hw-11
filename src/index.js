@@ -46,10 +46,9 @@ function searchEvent(e) {
         lightbox = new SimpleLightbox('.gallery a', {
           captionsData: 'alt',
         }).refresh();
-      }
-
-      if (data.totalHits > 40) {
-        loadMore.className = 'load-more';
+        if (data.totalHits > 40) {
+          loadMore.className = 'load-more';
+        }
       }
     })
     .catch(error => {
