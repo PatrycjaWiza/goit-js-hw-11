@@ -2,6 +2,7 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { fetchImages } from './js/fetchImages';
 import { renderImages, imageResults } from './js/renderImages';
+import { smoothScroll } from './js/smoothScroll';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
@@ -12,7 +13,7 @@ let page = 1;
 let name = '';
 
 form.addEventListener('submit', searchEvent);
-// loadMore.addEventListener('click', loadMoreEvent);
+loadMore.addEventListener('click', loadMoreEvent);
 
 function clear() {
   const imageResults = document.querySelector('.gallery');
@@ -23,24 +24,57 @@ function clear() {
 function searchEvent(e) {
   e.preventDefault();
   clear();
+  page = 1;
   name = document.querySelector('input').value.trim();
+
   if (name === '') {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
     return;
   }
+
   fetchImages(name, page)
     .then(({ data }) => {
+      if (data.totalHits === 0) {
+        Notify.failure(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+      }
       renderImages(data.hits);
+      smoothScroll();
+
       lightbox = new SimpleLightbox('.gallery a', {
         captionsData: 'alt',
       }).refresh();
-      //dodaj alert o znalezionych hitach Notify.success('Sol lucet omnibus');
+
+      if (data.totalHits > 40) {
+        loadMore.classList.remove('is-hidden');
+      }
     })
     .catch(error => {
       console.log(error);
     })
     .finally(() => form.reset());
 }
-function loadMoreEvent() {}
+
+//loadMore images
+function loadMoreEvent() {
+  page += 1;
+  fetchImages(name, page)
+    .then(({ data }) => {
+      renderImages(data.hits);
+      // smoothScroll();
+      lightbox = new SimpleLightbox('.gallery a', {
+        captionsData: 'alt',
+      }).refresh();
+
+      if (page > data.totalHits / 40) {
+        loadMore.classList.add('is-hidden');
+        Notify.failure(
+          "We're sorry, but you've reached the end of search results."
+        );
+      }
+    })
+    .catch(error => console.log(error));
+}
