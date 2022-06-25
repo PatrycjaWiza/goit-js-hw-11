@@ -42,8 +42,6 @@ function searchEvent(e) {
         );
       }
       renderImages(data.hits);
-      smoothScroll();
-
       lightbox = new SimpleLightbox('.gallery a', {
         captionsData: 'alt',
       }).refresh();
@@ -64,10 +62,10 @@ function loadMoreEvent() {
   fetchImages(name, page)
     .then(({ data }) => {
       renderImages(data.hits);
-      // smoothScroll();
       lightbox = new SimpleLightbox('.gallery a', {
         captionsData: 'alt',
       }).refresh();
+      smoothScroll();
 
       if (page > data.totalHits / 40) {
         loadMore.classList.add('is-hidden');
