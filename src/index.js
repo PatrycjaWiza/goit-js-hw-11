@@ -8,11 +8,11 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 // consts
 const form = document.querySelector('#search-form');
-const loadMore = document.querySelector('button[type="button"]');
+const loadMore = document.querySelector('.load-more');
 
 let page = 1;
 let name = '';
-
+let lightbox;
 form.addEventListener('submit', searchEvent);
 loadMore.addEventListener('click', loadMoreEvent);
 
@@ -47,7 +47,7 @@ function searchEvent(e) {
           captionsData: 'alt',
         }).refresh();
         if (data.totalHits > 40) {
-          loadMore.className = 'load-more';
+          loadMore.classList.remove('is-hidden');
         }
       }
     })
@@ -69,7 +69,7 @@ function loadMoreEvent() {
       smoothScroll();
       const totalPages = data.totalHits / 40;
       if (page > totalPages) {
-        loadMore.className = 'is-hidden';
+        loadMore.classList.add('is-hidden');
         Notify.failure(
           "We're sorry, but you've reached the end of search results."
         );
