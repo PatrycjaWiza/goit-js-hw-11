@@ -8,7 +8,8 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 // consts
 const form = document.querySelector('#search-form');
-const loadMore = document.querySelector('.load-more');
+const loadMore = document.querySelector('button[type="button"]');
+
 let page = 1;
 let name = '';
 
@@ -40,14 +41,16 @@ function searchEvent(e) {
         Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
+      } else {
+        renderImages(data.hits);
+        lightbox = new SimpleLightbox('.gallery a', {
+          captionsData: 'alt',
+        }).refresh();
       }
-      renderImages(data.hits);
-      lightbox = new SimpleLightbox('.gallery a', {
-        captionsData: 'alt',
-      }).refresh();
 
       if (data.totalHits > 40) {
-        loadMore.classList.remove('.is-hidden');
+        loadMore.classList.remove('is-hidden');
+        console.log(loadMore.classList);
       }
     })
     .catch(error => {
@@ -66,9 +69,9 @@ function loadMoreEvent() {
         captionsData: 'alt',
       }).refresh();
       smoothScroll();
-
-      if (page > data.totalHits / 40) {
-        loadMore.classList.add('.is-hidden');
+      const totalPages = data.totalHits / 40;
+      if (page > totalPages) {
+        loadMore.classList.add('is-hidden');
         Notify.failure(
           "We're sorry, but you've reached the end of search results."
         );

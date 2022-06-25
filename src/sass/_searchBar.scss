@@ -76,8 +76,10 @@ p{
   background-position: 50% 50%;
   background-repeat: no-repeat;
 }
+.is-hidden{
+  display: none;
+}
 .load-more{
-display: inline-block;
 position: absolute;
 right: 10;
 margin-top: 30px;
@@ -93,7 +95,4 @@ cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
 }
-}
-.is-hidden{
-  display: none;
 }
